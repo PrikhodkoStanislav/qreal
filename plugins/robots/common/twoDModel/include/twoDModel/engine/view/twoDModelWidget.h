@@ -19,6 +19,7 @@
 #include <QtWidgets/QGraphicsView>
 
 #include <qrutils/graphicsUtils/lineImpl.h>
+#include <qrgui/plugins/toolPluginInterface/usedInterfaces/editorInterface.h>
 #include <kitBase/readOnly.h>
 
 #include <kitBase/devicesConfigurationWidget.h>
@@ -58,10 +59,13 @@ class SensorItem;
 class RobotItem;
 class ActionsBox;
 class ColorItemPopup;
+class ImageItemPopup;
 class RobotItemPopup;
 class SpeedPopup;
 
-class TWO_D_MODEL_EXPORT TwoDModelWidget : public QWidget, public kitBase::DevicesConfigurationProvider
+class TWO_D_MODEL_EXPORT TwoDModelWidget : public QWidget
+		, public kitBase::DevicesConfigurationProvider
+		, public qReal::EditorInterface
 {
 	Q_OBJECT
 
@@ -95,6 +99,15 @@ public:
 	/// In a compact mode 2D model window has less controls, they may seem in another way.
 	void setCompactMode(bool enabled);
 
+	QString editorId() const override;
+	bool supportsZooming() const override;
+	void configure(QAction &zoomIn, QAction &zoomOut, QAction &undo, QAction &redo
+		, QAction &copy, QAction &paste, QAction &cut) override;
+
+public slots:
+	void zoomIn() override;
+	void zoomOut() override;
+
 signals:
 	/// Emitted each time when user closes 2D model window.
 	void widgetClosed();
@@ -117,6 +130,8 @@ protected:
 	void keyPressEvent(QKeyEvent *event) override;
 	void closeEvent(QCloseEvent *event) override;
 
+	void focusInEvent(QFocusEvent *event) override;
+
 	void onDeviceConfigurationChanged(const QString &robotModel
 			, const kitBase::robotModel::PortInfo &port
 			, const kitBase::robotModel::DeviceInfo &device
@@ -128,6 +143,7 @@ private slots:
 	void saveToRepo();
 	void saveWorldModel();
 	void loadWorldModel();
+	void setBackground();
 
 	void onSelectionChange();
 
@@ -211,6 +227,7 @@ private:
 	TwoDModelScene *mScene = nullptr;
 	QScopedPointer<ActionsBox> mActions;
 	ColorItemPopup *mColorFieldItemPopup;  // Takes ownership
+	ImageItemPopup *mImageItemPopup;  // Takes ownership
 	RobotItemPopup *mRobotItemPopup;  // Takes ownership
 	SpeedPopup *mSpeedPopup;  // Takes owneship
 
