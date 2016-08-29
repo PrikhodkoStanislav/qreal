@@ -202,8 +202,27 @@ void TwoDModelEngineFacade::onStartInterpretation()
 
 			simxGetObjectHandle(clientID, "sensor", &sonarSensorHandle, simx_opmode_oneshot_wait);
 
-			mApi->initParameters3DModel(clientID, frontLeftHandle, frontRightHandle,
-										backLeftHandle, backRightHandle, sonarSensorHandle);
+
+			simxGetObjectHandle(clientID, "DynamicRightJoint", &rightHandle, simx_opmode_oneshot_wait);
+			simxGetObjectHandle(clientID, "DynamicLeftJoint", &leftHandle, simx_opmode_oneshot_wait);
+
+			simxInt * parameters = new simxInt[8];
+
+			parameters[0] = clientID;
+			parameters[1] = frontLeftHandle;
+			parameters[2] = frontRightHandle;
+			parameters[3] = backLeftHandle;
+			parameters[4] = backRightHandle;
+			parameters[5] = sonarSensorHandle;
+			parameters[6] = rightHandle;
+			parameters[7] = leftHandle;
+
+//			mApi->initParameters3DModel(clientID, frontLeftHandle, frontRightHandle,
+//										backLeftHandle, backRightHandle, sonarSensorHandle, rightHandle, leftHandle);
+
+			mApi->initParameters3DModel(parameters);
+
+			delete[] parameters;
 
 			isConnect = true;
 		}

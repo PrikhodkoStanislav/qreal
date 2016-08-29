@@ -110,6 +110,9 @@ private:
 
 	int sonarSensorHandle = 0;
 
+	int rightHandle = 0;
+	int leftHandle = 0;
+
 	bool isConnect = false;
 
 	int typeOfRobotModel = 2;

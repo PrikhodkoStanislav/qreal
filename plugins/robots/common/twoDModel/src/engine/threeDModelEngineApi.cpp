@@ -68,19 +68,32 @@ ThreeDModelEngineApi::~ThreeDModelEngineApi()
 
 // Block for 3D model
 
-void ThreeDModelEngineApi::initParameters3DModel(int clientID,
-												 int frontLeftHandle, int frontRightHandle,
-												 int backLeftHandle, int backRightHandle,
-												 int sonarSensorHandle)
+//void ThreeDModelEngineApi::initParameters3DModel(int clientID,
+//												 int frontLeftHandle, int frontRightHandle,
+//												 int backLeftHandle, int backRightHandle,
+//												 int sonarSensorHandle)
+void ThreeDModelEngineApi::initParameters3DModel(int const * parameters)
 {
-	this->clientID = clientID;
+//	this->clientID = clientID;
 
-	this->frontLeftHandle = frontLeftHandle;
-	this->frontRightHandle = frontRightHandle;
-	this->backLeftHandle = backLeftHandle;
-	this->backRightHandle = backRightHandle;
+//	this->frontLeftHandle = frontLeftHandle;
+//	this->frontRightHandle = frontRightHandle;
+//	this->backLeftHandle = backLeftHandle;
+//	this->backRightHandle = backRightHandle;
 
-	this->sonarSensorHandle = sonarSensorHandle;
+//	this->sonarSensorHandle = sonarSensorHandle;
+
+	this->clientID = parameters[0];
+
+	this->frontLeftHandle = parameters[1];
+	this->frontRightHandle = parameters[2];
+	this->backLeftHandle = parameters[3];
+	this->backRightHandle = parameters[4];
+
+	this->sonarSensorHandle = parameters[5];
+
+	this->rightHandle = parameters[6];
+	this->leftHandle = parameters[7];
 }
 
 //
@@ -96,10 +109,14 @@ void ThreeDModelEngineApi::setNewMotor(int speed, uint degrees, const PortInfo &
 
 	if (port.name() == QString("M3")) {
 		simxSetJointTargetVelocity(clientID, backLeftHandle, (float)speed * 10.0f, simx_opmode_oneshot);
+
+		simxSetJointTargetVelocity(clientID, leftHandle, (float)speed * 0.0f, simx_opmode_oneshot);
 	}
 
 	if (port.name() == QString("M4")) {
-		simxSetJointTargetVelocity(clientID, backRightHandle, -(float)speed * 10.0f, simx_opmode_oneshot);
+		simxSetJointTargetVelocity(clientID, backRightHandle, (float)speed * 10.0f, simx_opmode_oneshot);
+
+		simxSetJointTargetVelocity(clientID, rightHandle, (float)speed * 0.0f, simx_opmode_oneshot);
 	}
 
 

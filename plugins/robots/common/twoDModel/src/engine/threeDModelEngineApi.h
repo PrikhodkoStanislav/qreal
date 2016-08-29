@@ -52,10 +52,12 @@ public:
 
 	// Block for 3D model
 
-	void initParameters3DModel(int clientID,
-							   int frontLeftHandle, int frontRightHandle,
-							   int backLeftHandle, int backRightHandle,
-							   int sonarSensorHandle) override;
+//	void initParameters3DModel(int clientID,
+//							   int frontLeftHandle, int frontRightHandle,
+//							   int backLeftHandle, int backRightHandle,
+//							   int sonarSensorHandle) override;
+
+	void initParameters3DModel(int const * parameters) override;
 
 	//
 
@@ -107,14 +109,18 @@ private:
 
 	// Block for 3D model
 
-	int clientID = -1;
+	simxInt clientID = -1;
 
-	int frontLeftHandle = 0;
-	int frontRightHandle = 0;
-	int backLeftHandle = 0;
-	int backRightHandle = 0;
+	simxInt frontLeftHandle = 0;
+	simxInt frontRightHandle = 0;
+	simxInt backLeftHandle = 0;
+	simxInt backRightHandle = 0;
 
-	int sonarSensorHandle = 0;
+	simxInt rightHandle = 0;
+	simxInt leftHandle = 0;
+
+
+	simxInt sonarSensorHandle = 0;
 
 	//
 };
