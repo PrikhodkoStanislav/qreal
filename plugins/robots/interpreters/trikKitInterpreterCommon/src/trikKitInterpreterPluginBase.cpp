@@ -90,6 +90,7 @@ void TrikKitInterpreterPluginBase::init(const kitBase::KitPluginConfigurator &co
 			, configurer.qRealConfigurator().logicalModelApi()
 			, configurer.qRealConfigurator().controller()
 			, interpretersInterface
+			, configurer.qRealConfigurator().mainWindowDockInterface()
 			, configurer.qRealConfigurator().projectManager()
 			, configurer.interpreterControl());
 
